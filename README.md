@@ -1,24 +1,11 @@
-# ⚡ Node.js Starter Function
+# ⚡ Node.js CRON WORKER
 
-A simple starter function. Edit `src/main.js` to get started and create something awesome! 🚀
+A simple function. Edit environment variables to get started and create a cron job! 🚀
 
 ## 🧰 Usage
 
-### GET /ping
+### GET /
 
-- Returns a "Pong" message.
-
-**Response**
-
-Sample `200` Response:
-
-```text
-Pong
-```
-
-### GET, POST, PUT, PATCH, DELETE /
-
-- Returns a "Learn More" JSON response.
 
 **Response**
 
@@ -26,10 +13,7 @@ Sample `200` Response:
 
 ```json
 {
-  "motto": "Build like a team of hundreds_",
-  "learn": "https://appwrite.io/docs",
-  "connect": "https://appwrite.io/discord",
-  "getInspired": "https://builtwith.appwrite.io"
+success: true,
 }
 ```
 
@@ -44,5 +28,3 @@ Sample `200` Response:
 | Timeout (Seconds) | 15            |
 
 ## 🔒 Environment Variables
-
-No environment variables required.
