@@ -4,16 +4,12 @@ const createClient = ({ endpoint, projectId, apiKey }) =>
   new Client().setEndpoint(endpoint).setProject(projectId).setKey(apiKey);
 
 const pruneCollection = async (databases, databaseId, collectionId) => {
-  let cursor = null;
   for (;;) {
-    const queries = [Query.limit(100)];
-    if (cursor) queries.push(Query.cursorAfter(cursor));
-    const { documents } = await databases.listDocuments(databaseId, collectionId, queries);
+    const { documents } = await databases.listDocuments(databaseId, collectionId, [Query.limit(100)]);
     if (!documents.length) break;
     for (const doc of documents) {
       await databases.deleteDocument(databaseId, collectionId, doc.$id);
     }
-    cursor = documents[documents.length - 1].$id;
   }
 };
 
