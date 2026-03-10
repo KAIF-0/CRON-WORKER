@@ -28,5 +28,5 @@ const pruneAndRecord = async (
   await databases.createDocument(databaseId, collectionId, ID.unique(), data);
 };
 
-export const pruneAndRecordProjects = async (projects, value) =>
+export const pruneAndRecordProjects = async (projects, value="0") =>
   Promise.all(projects.map((project) => pruneAndRecord(project, value)));

@@ -41,7 +41,7 @@ export default async ({ req, res, log, error }) => {
     }
 
     if (pruneTargets.length) {
-      await pruneAndRecordProjects(pruneTargets);
+      await pruneAndRecordProjects(pruneTargets, toString(number) || "0");
     }
   } catch (err) {
     error("Could not list users: " + err.message);
