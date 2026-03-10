@@ -1,6 +1,7 @@
 import { Client, Users } from 'node-appwrite';
 import dotenv from 'dotenv';
 import axios from 'axios';
+import { pruneAndRecordProjects } from './db-functions.js';
 dotenv.config();
 
 export default async ({ req, res, log, error }) => {
@@ -12,6 +13,18 @@ export default async ({ req, res, log, error }) => {
 
   const URL = JSON.parse(process.env.URL);
   let number = Object.keys(URL).length;
+
+  const parseProjects = () => {
+    try {
+      const parsed = JSON.parse(process.env.PRUNE_TARGETS ?? '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const pruneTargets = parseProjects();
+  // console.log("Prune targets:", pruneTargets);
 
   try {
     while (number) {
@@ -25,6 +38,10 @@ export default async ({ req, res, log, error }) => {
           error(`Error executing cron job for ${url}:`, err.message);
         });
       number--;
+    }
+
+    if (pruneTargets.length) {
+      await pruneAndRecordProjects(pruneTargets);
     }
   } catch (err) {
     error("Could not list users: " + err.message);
