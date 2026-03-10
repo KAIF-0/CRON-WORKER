@@ -24,7 +24,8 @@ export default async ({ req, res, log, error }) => {
     }
   };
 
-  const pruneTargets = parseProjects(); 
+  const pruneTargets = parseProjects();
+  log("Prune targets:", pruneTargets); 
 
   try {
     while (number) {
