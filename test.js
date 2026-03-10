@@ -1,19 +1,16 @@
-import { config } from 'dotenv';
-
-config();
-(async () => {  const parseProjects = () => {
-    try {
-      const parsed = JSON.parse(process.env.PRUNE_TARGETS ?? '[]');
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
+// for testing
+(async () => {
+  const { default: main } = await import('./main.js');
+  const req = {
+    headers: {
+      'x-appwrite-key': process.env.APPWRITE_FUNCTION_API_KEY,
+    },
   };
+  const res = {
+    json: (data) => console.log('Response:', data),
+  };
+  const log = console.log;
+  const error = console.error;
 
-  const pruneTargets = parseProjects();
-  console.log("Prune targets:", pruneTargets);
-  if(pruneTargets.length) {
-    const { pruneAndRecordProjects } = await import('./src/db-functions.js');
-    await pruneAndRecordProjects(pruneTargets, "23");
-  }
+  await main({ req, res, log, error });
 })();
