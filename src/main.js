@@ -12,7 +12,8 @@ export default async ({ req, res, log, error }) => {
   const users = new Users(client);
 
   const URL = JSON.parse(process.env.URL);
-  let number = Object.keys(URL).length;
+  const total = Object.keys(URL).length;
+  let number = total;
 
   const parseProjects = () => {
     try {
@@ -24,7 +25,6 @@ export default async ({ req, res, log, error }) => {
   };
 
   const pruneTargets = parseProjects();
-  // console.log("Prune targets:", pruneTargets);
 
   try {
     while (number) {
@@ -40,9 +40,7 @@ export default async ({ req, res, log, error }) => {
       number--;
     }
 
-    if (pruneTargets.length) {
-      await pruneAndRecordProjects(pruneTargets, toString(number) || "0");
-    }
+    if (pruneTargets.length) await pruneAndRecordProjects(pruneTargets, String(total));
   } catch (err) {
     error("Could not list users: " + err.message);
   }
