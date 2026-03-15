@@ -1,6 +1,6 @@
 // for testing
 (async () => {
-  const { default: main } = await import('./main.js');
+  const { default: main } = await import('./src/main.js');
   const req = {
     headers: {
       'x-appwrite-key': process.env.APPWRITE_FUNCTION_API_KEY,

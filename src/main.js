@@ -1,7 +1,6 @@
 import { Client, Users } from 'node-appwrite';
 import dotenv from 'dotenv';
 import axios from 'axios';
-import { pruneAndRecordProjects } from './db-functions.js';
 dotenv.config();
 
 export default async ({ req, res, log, error }) => {
@@ -12,20 +11,7 @@ export default async ({ req, res, log, error }) => {
   const users = new Users(client);
 
   const URL = JSON.parse(process.env.URL);
-  const total = Object.keys(URL).length;
-  let number = total;
-
-  const parseProjects = () => {
-    try {
-      const parsed = JSON.parse(process.env.PRUNE_TARGETS ?? '[]');
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  };
-
-  const pruneTargets = parseProjects();
-  log("Prune targets:", pruneTargets); 
+  let number = Object.keys(URL).length;
 
   try {
     while (number) {
@@ -41,7 +27,6 @@ export default async ({ req, res, log, error }) => {
       number--;
     }
 
-    if (pruneTargets.length) await pruneAndRecordProjects(pruneTargets, String(total));
   } catch (err) {
     error("Could not list users: " + err.message);
   }
